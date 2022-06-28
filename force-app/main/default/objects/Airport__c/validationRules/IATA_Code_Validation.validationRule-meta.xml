@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IATA_Code_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( 
+!ISBLANK( IATA__c ), 
+LEN( IATA__c ) &lt;&gt; 3,
+NOT(REGEX( IATA__c , &quot;[a-zA-Z]*$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>IATA__c</errorDisplayField>
+    <errorMessage>IATA code must be a three letters code!</errorMessage>
+</ValidationRule>
