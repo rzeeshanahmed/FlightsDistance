@@ -1,0 +1,113 @@
+<apex:page showHeader="true" sidebar="true" standardController="Flight__c" extensions="FlightController">
+    <!-- Styling of the page blocks -->
+    <style>
+        .flightDetails {
+        width: 80%;
+        margin: auto;
+        }
+        
+        .flightWrapper {
+        width: 100%;
+        margin: auto;
+        height: 150px;
+        display: flex;
+        padding: 10px 30px;
+        align-items: center;
+        }
+        
+        .flightInnerWrapper {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        }
+        
+        .locationWrapper {
+        display: flex;
+        flex-direction: column;
+        }
+        
+        .cityAbbr {
+        font-size: 20px;
+        font-weight: 700;
+        font-family: 'Roboto', sans-serif;
+        }
+        
+        .flightAnimation { 
+        flex: 1; 
+        }
+        
+        .routeBorder{
+        width: 100%;
+        display: block;
+        position: relative;
+        border: solid 5px #000;
+        border-color: #000000 transparent transparent transparent;
+        border-radius: 50%/100px 100px 0 0;
+        }
+        .routeBorder .fas{
+        top: -23px;
+        font-size: 40px;
+        position: absolute;
+        left: calc(50% - 50px);
+        }
+        .routeBorder .flightDistance{
+        top: 50%;
+        left: 50%;
+        font-size: 18px;
+        font-weight: 600;
+        position: absolute;
+        transform: translate(-50%, 35%);
+        font-family: 'Montserrat', sans-serif;
+        }
+        
+        .flight-route {
+        top: -21px;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        left: calc(50% - 25px);
+        background-size: contain;
+        }
+    </style>
+    <apex:form >
+        <!-- Output panel to display error/warning/success messages -->
+        <apex:outputPanel >
+            <apex:pageMessages ></apex:pageMessages>
+        </apex:outputPanel>
+        <apex:pageBlock title="Flights" mode="edit">
+            <!-- Area to display action buttons -->
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Save"/>
+            </apex:pageBlockButtons>
+            
+            <!-- Page section to display input fields for flight creation -->
+            <apex:pageBlockSection title="Flight Details" columns="2">
+                <apex:inputField value="{!Flight__c.Departure__c}" required="true"/>
+                <apex:inputField value="{!Flight__c.Arrival__c}" required="true"/>
+            </apex:pageBlockSection>
+            <!-- Page section to display the existing/newly created flight details -->
+            <apex:pageBlockSection columns="1" rendered="{!IF(status == true,true,false)}">
+                <div class="slds-card flightDetails">
+                    <div class="flightWrapper">
+                        <div class="flightInnerWrapper">
+                            <div class="locationWrapper">
+                                <span class="cityAbbr"> {!flight.Departure__r.Name} </span>
+                            </div>
+                            <div class="flightAnimation">
+                                <span class="routeBorder">
+                                    <span class="flight-route"></span>
+                                    <span class="flightDistance"> {!Round(flight.Distance_in_km__c,1)} km</span>
+                                </span>
+                            </div>
+                            <div class="locationWrapper">
+                                <span class="cityAbbr"> {!flight.Arrival__r.Name} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
